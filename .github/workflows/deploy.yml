@@ -6,7 +6,7 @@ on:
       - main # 或你当前的默认分支名称，例如 master
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 

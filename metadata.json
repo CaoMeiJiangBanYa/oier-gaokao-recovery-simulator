@@ -1,0 +1,6 @@
+{
+  "name": "信奥生的高考复健之路",
+  "description": "模拟信息学奥赛生竞赛失利后回归文化课的高考复健养成游戏。在100天内，通过平衡学科复习、心理压力、算法执念，决定自己的高考结局。支持多存档、丰富的日常事件和多样化结局。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -6,7 +6,9 @@ on:
       - main # 或你当前的默认分支名称，例如 master
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -18,7 +20,8 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          npm ci
+          - name: Install dependencies
+          run: npm install
           npm run build
 
       - name: Deploy 🚀

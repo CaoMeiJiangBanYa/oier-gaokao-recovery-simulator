@@ -3,7 +3,7 @@ name: build-and-deploy
 on:
   push:
     branches:
-      - main
+      - master  # 如果你的分支是master，改成master
 
 permissions:
   contents: read

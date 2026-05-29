@@ -29,6 +29,10 @@ import {
   Info
 } from 'lucide-react';
 import { PlayerStats, GameState, SubjectScores, ShopItem, SuddenEvent, MemoryFlashback, Achievement } from './types';
+import fallenButterflyImg from './assets/images/fallen_butterfly_1779980474373.png';
+import indieHackerImg from './assets/images/indie_hacker_end_1779980500266.png';
+import tsinghuaEndImg from './assets/images/tsinghua_end_1779980528002.png';
+import gapYearEndImg from './assets/images/gap_year_end_1779980551379.png';
 import { StatsDisplay } from './components/StatsDisplay';
 import { ArchivePanel } from './components/ArchivePanel';
 import { ScoreReport } from './components/ScoreReport';
@@ -1191,22 +1195,22 @@ export default function App() {
   const getEndingImage = (endingId: string) => {
     switch (endingId) {
       case 'ending_stress_breakdown':
-        return '/src/assets/images/fallen_butterfly_1779980474373.png';
+        return fallenButterflyImg;
       case 'ending_indie_hacker':
-        return '/src/assets/images/indie_hacker_end_1779980500266.png';
+        return indieHackerImg;
       case 'ending_abroad':
-        return '/src/assets/images/tsinghua_end_1779980528002.png';
+        return tsinghuaEndImg;
       case 'ending_expelled':
-        return '/src/assets/images/gap_year_end_1779980551379.png';
+        return gapYearEndImg;
       case 'ending_provincial_top':
       case 'ending_985_ship':
       case 'ending_211_elite':
-        return '/src/assets/images/tsinghua_end_1779980528002.png';
+        return tsinghuaEndImg;
       case 'ending_tier1_standard':
       case 'ending_tier2_survive':
       case 'ending_gap_year':
       default:
-        return '/src/assets/images/gap_year_end_1779980551379.png';
+        return gapYearEndImg;
     }
   };
 
@@ -2260,7 +2264,7 @@ export default function App() {
                         {/* Fallen Butterfly Background */}
                         <div className="absolute inset-0 z-0 opacity-15 pointer-events-none flex items-center justify-center">
                           <img 
-                            src="/src/assets/images/fallen_butterfly_1779980474373.png" 
+                            src={fallenButterflyImg} 
                             alt="Fallen Butterfly"
                             className="w-full h-full object-cover scale-105 filter grayscale-[100%] contrast-125"
                             referrerPolicy="no-referrer"

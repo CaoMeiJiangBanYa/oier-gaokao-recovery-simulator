@@ -57,7 +57,7 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({ stats }) => {
             <div className="flex items-baseline gap-1 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200 shadow-xs">
               <span className="text-[10px] text-stone-500 font-sans uppercase font-bold tracking-wider">身体素质:</span>
               <span className="font-mono text-xl font-extrabold text-stone-900">{scores.pe}</span>
-              <span className="text-xs text-stone-400 font-sans">/ 50 素质评分（不计入高考）</span>
+              <span className="text-xs text-stone-400 font-sans">/ 100</span>
             </div>
           </div>
         </div>
@@ -179,28 +179,28 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({ stats }) => {
             </p>
           </div>
 
-          {/* Physical Education */}
-          <div className={`p-4 rounded-xl border sm:col-span-2 flex flex-col gap-2 ${getSubjectColorClass(scores.pe, 50)} hover:shadow-xs transition-all duration-200`}>
+          {/* Physical Fitness */}
+          <div className={`p-4 rounded-xl border sm:col-span-2 flex flex-col gap-2 ${getSubjectColorClass(scores.pe, 100)} hover:shadow-xs transition-all duration-200`}>
             <div className="flex justify-between items-center">
-              <span className="flex items-center gap-1.5 font-sans font-bold text-xs uppercase tracking-wider">
-                <Dribbble className="w-3.5 h-3.5" /> 体育考试 (P.E.)
+              <span className="flex items-center gap-1.5 font-sans font-bold text-xs uppercase tracking-wider text-emerald-800">
+                <Activity className="w-3.5 h-3.5 text-emerald-600 animate-pulse" /> 身体素质 (Fitness)
               </span>
-              <span className="font-mono font-extrabold text-sm">{scores.pe} <span className="opacity-60 text-[10px] font-normal">/ 50</span></span>
+              <span className="font-mono font-extrabold text-sm">{scores.pe} <span className="opacity-60 text-[10px] font-normal">/ 100</span></span>
             </div>
             <div className="w-full bg-stone-200/40 rounded-full h-1">
               <div 
-                className={`h-1 rounded-full ${getSubjectProgressColor(scores.pe, 50)} transition-all duration-500`} 
-                style={{ width: `${(scores.pe / 50) * 100}%` }}
+                className={`h-1 rounded-full ${getSubjectProgressColor(scores.pe, 100)} transition-all duration-500`} 
+                style={{ width: `${(scores.pe / 100) * 100}%` }}
               ></div>
             </div>
             <p className="text-[10px] font-sans opacity-75 leading-relaxed">
               {(() => {
-                if (scores.pe >= 42) {
-                  return "【风雨追风者】体魄矫健开阔。1000米、立定跳远成绩稳居金字塔顶。过人的肺活量是支撑整个战局、抚平心脏悸动和失眠底火的最核心压舱石。";
-                } else if (scores.pe >= 28) {
-                  return "【中段稳健】体测可以过关，但下午长跑后大腿仍会乳酸疼。建议每周稍微去操场挥汗加练，释放心理压力并稳固加分。";
+                if (scores.pe >= 80) {
+                  return "【钢铁钢骨】体质极佳。1050米长跑有条不紊，心肺抗压储备极其饱满。过人的健康体能底座是支撑长时间持久用脑、平定身心焦虑的最强压舱石。";
+                } else if (scores.pe >= 55) {
+                  return "【凡躯稳健】身体状态处于平均水准，连续用脑易显疲累。建议每周适时进行一些耐力加练，支撑身心高负荷备考。";
                 } else {
-                  return "【身体告警】长年在微机班熬夜导致的体质衰竭在发酵。下午长跑极易引起胸口炸痛与干呕，无法提供起码的高热功耗支撑。";
+                  return "【身体告警】长期缺乏运动与熬夜导致的体能虚弱。稍微运动就心慌、注意力衰退，严重制约高强度复习吸收率。";
                 }
               })()}
             </p>
@@ -343,7 +343,7 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({ stats }) => {
               零散生活基金
             </span>
             <span className="font-mono text-sm font-extrabold text-stone-800">
-              ￥{funds} 元
+              {funds} 元
             </span>
           </div>
         </div>

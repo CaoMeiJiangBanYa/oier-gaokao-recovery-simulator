@@ -16,7 +16,6 @@ export const ScoreReport: React.FC<ScoreReportProps> = ({
   onContinue
 }) => {
   const culturalScore = scores.chinese + scores.math + scores.english + scores.science;
-  const totalScoreWithPe = culturalScore + scores.pe;
 
   // Let's implement a realistic provincial Gaokao rank projection algorithm out of 750 cultural
   const getProjectedRank = (score: number) => {
@@ -109,7 +108,7 @@ export const ScoreReport: React.FC<ScoreReportProps> = ({
       </div>
 
       {/* Main Scoreboard block */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6 text-center">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 text-center">
         <div className="bg-white p-2.5 rounded-xl border border-stone-200">
           <div className="text-[10px] text-stone-400 font-sans mb-1 uppercase font-bold">语文</div>
           <div className="font-mono text-base font-extrabold text-stone-850">{scores.chinese}</div>
@@ -129,11 +128,6 @@ export const ScoreReport: React.FC<ScoreReportProps> = ({
           <div className="text-[10px] text-stone-400 font-sans mb-1 uppercase font-bold">理综</div>
           <div className="font-mono text-base font-extrabold text-stone-850">{scores.science}</div>
           <div className="text-[10px] text-stone-400">满 300</div>
-        </div>
-        <div className="bg-white p-2.5 rounded-xl border border-stone-200 bg-emerald-50/20 border-emerald-100">
-          <div className="text-[10px] text-emerald-600 font-sans mb-1 uppercase font-bold">体育</div>
-          <div className="font-mono text-base font-extrabold text-emerald-800">{scores.pe}</div>
-          <div className="text-[10px] text-stone-400">满 50</div>
         </div>
       </div>
 
@@ -162,7 +156,9 @@ export const ScoreReport: React.FC<ScoreReportProps> = ({
         <div>
           <h4 className="font-sans font-bold text-xs tracking-tight text-stone-900 uppercase">当前全省预计投档线：</h4>
           <p className="text-[11px] mt-1 leading-snug">{adTier.tier}</p>
-          <p className="text-[10px] text-stone-400 mt-1 leading-relaxed">包含体育在内的整体心智储备总评：<b>{totalScoreWithPe} / 800分</b></p>
+          <div className="mt-2 text-[10px] text-emerald-700 bg-emerald-50/50 px-2.5 py-1.5 rounded-lg border border-emerald-100 flex items-center gap-1.5 font-sans font-medium">
+            <Activity className="w-3.5 h-3.5 text-emerald-600 animate-pulse" /> 身心素质系数保障支撑值: <b>{scores.pe} / 100</b> (已解耦高考，作为底盘影响消耗与恢复)
+          </div>
         </div>
       </div>
 

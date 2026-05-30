@@ -177,7 +177,7 @@ const ORIGINS = [
     name: '【打铁退役生】',
     description: 'NOI决赛中由于大意未取得约定约签。痛哭两日后彻底归零。长达十个月荒芜让文科成绩退化，但韧性仍在。',
     initialStats: {
-      scores: { chinese: 78, math: 92, english: 74, science: 165, pe: 32 },
+      scores: { chinese: 78, math: 92, english: 74, science: 165, pe: 64 },
       stamina: 95,
       stress: 20,
       funds: 120,
@@ -191,7 +191,7 @@ const ORIGINS = [
     name: '【省选折翼者】',
     description: '省选两日由于越界常数Bug，以微弱1.5分痛失队线资格。极为遗憾，高傲的代码执念时而入侵脑海。',
     initialStats: {
-      scores: { chinese: 72, math: 110, english: 70, science: 180, pe: 28 },
+      scores: { chinese: 72, math: 110, english: 70, science: 180, pe: 56 },
       stamina: 80,
       stress: 35,
       funds: 100,
@@ -205,7 +205,7 @@ const ORIGINS = [
     name: '【无名刷题狂】',
     description: '没有正式竞赛培训，纯凭热爱刷穿了各大OJ平台两千题。文理失衡严重，但代码魂极度沸腾。',
     initialStats: {
-      scores: { chinese: 65, math: 115, english: 60, science: 195, pe: 30 },
+      scores: { chinese: 65, math: 115, english: 60, science: 195, pe: 60 },
       stamina: 85,
       stress: 15,
       funds: 80,
@@ -219,7 +219,7 @@ const ORIGINS = [
     name: '【自定义信奥生】',
     description: '自选玩法，自由平衡！配置1个正面极境本能，背负2个心理枷锁在极黑高考里绝地逆袭。',
     initialStats: {
-      scores: { chinese: 75, math: 95, english: 70, science: 165, pe: 30 },
+      scores: { chinese: 75, math: 95, english: 70, science: 165, pe: 60 },
       stamina: 90,
       stress: 25,
       funds: 100,
@@ -232,6 +232,7 @@ const ORIGINS = [
 
 export default function App() {
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [changelogOpen, setChangelogOpen] = useState(false);
   
   // Temporary state for the character creation portal
   const [characterName, setCharacterName] = useState('良');
@@ -256,7 +257,7 @@ export default function App() {
     weeklyFlashback: null,
     currentWeek: 1,
     stats: {
-      scores: { chinese: 75, math: 95, english: 75, science: 160, pe: 30 },
+      scores: { chinese: 75, math: 95, english: 75, science: 160, pe: 60 },
       stamina: 100,
       stress: 20,
       funds: 100,
@@ -308,7 +309,7 @@ export default function App() {
     if (scores.chinese >= 135) checkAndAdd('ach_score_1');
     if (scores.math >= 140) checkAndAdd('ach_score_2');
     if (totalScore >= 680) checkAndAdd('ach_score_3');
-    if (scores.pe >= 45) checkAndAdd('ach_score_pe');
+    if (scores.pe >= 85) checkAndAdd('ach_score_pe');
     if (scores.science >= 280) checkAndAdd('ach_score_science');
     if (scores.english >= 140) checkAndAdd('ach_score_english');
 
@@ -457,7 +458,7 @@ export default function App() {
       customStats.scores.math += 15;
       customStats.scores.english += 15;
       customStats.scores.science += 25;
-      customStats.scores.pe += 5;
+      customStats.scores.pe += 10;
       customStats.stamina = 100;
       customStats.funds += 30;
       customStats.sleepQuality = 90;
@@ -678,14 +679,24 @@ export default function App() {
           name = `理综+${realSci}`;
           break;
         case 'PE_TRAIN':
-          let peGains = 6;
+          let peGains = 12;
           let peEnergyCost = -20;
           if (gameState.selectedBuffIds?.includes('buff_run') || gameState.selectedBuffId === 'buff_run') {
-            peGains = 9;
+            peGains = 18;
             peEnergyCost = -15;
           }
-          d = { pe: peGains, stamina: peEnergyCost, stress: -15, resilience: 5, sleepQuality: 15 };
-          name = `体育+${peGains}`;
+          d = { pe: peGains, stamina: peEnergyCost, stress: -16, resilience: 6, sleepQuality: 16 };
+          name = `身体素质+${peGains}`;
+          break;
+        case 'GYM_TRAIN':
+          let gymGains = 16;
+          let gymStaminaCost = -24;
+          if (gameState.selectedBuffIds?.includes('buff_run') || gameState.selectedBuffId === 'buff_run') {
+            gymGains = 24;
+            gymStaminaCost = -18;
+          }
+          d = { pe: gymGains, stamina: gymStaminaCost, stress: -10, resilience: 8, sleepQuality: 10 };
+          name = `身体素质+${gymGains}`;
           break;
         case 'CODE':
           let codeStressDecay = -25;
@@ -1120,7 +1131,7 @@ export default function App() {
       weeklyFlashback: null,
       currentWeek: 1,
       stats: {
-        scores: { chinese: 75, math: 95, english: 75, science: 160, pe: 30 },
+        scores: { chinese: 75, math: 95, english: 75, science: 160, pe: 60 },
         stamina: 100,
         stress: 20,
         funds: 100,
@@ -1242,56 +1253,56 @@ export default function App() {
           title: '🤕 【系统宕机：心理崩溃】',
           badge: '精神过载断电',
           description: `在倒计时行将结束的某天半夜，面对考卷上那些算不完的数列级数与理综电磁，你最后的一根心理拉簧崩断了。你捂着耳朵，眼前浮现出无限循环和编译退回的错码。你错过了高考……然而，在昏睡了整整两周后，父母默默带回高教辅导的心理顾问，帮你打理了行装去到远郊疗养。你扔掉了数理草稿，开始抚摸山泉温润的石头，或许人生不需要永远完美Accepted，不崩溃就是通往安宁的绿色通道。`,
-          metrics: `高考文化分: 0分 | 体育强韧: ${pe} | 自豪指数: ${pride}`
+          metrics: `高考文化分: 0分 | 身体素质: ${pe}/100 | 自豪指数: ${pride}`
         };
       case 'ending_indie_hacker':
         return {
           title: '💻 【极客新生 · 底层系统架构奇迹】',
           badge: '顶级独立开发者',
           description: `因为你执迷于极致的逻辑证明、汇编常数重构和手痒写底层的编译内核，你完美地放弃了枯燥繁重的语文与英语。高考文化总分仅仅只有 ${total} 分。但在考后两星期的GitHub年度开发者大会上，你由于在寝室里写的极简跨平台网络库内核加速器被开源教父大力力荐，直登全球科技第一热榜！某国外名牌大学CS科研所首席特聘教授给你的邮箱发来了直通奖学金，人生并不止有一条高考通档。`,
-          metrics: `高考总分: ${total}分 (绝杀数理分) | 体育分值: ${pe} | 极致独立极客`
+          metrics: `高考总分: ${total}分 (绝杀数理分) | 身体素质: ${pe}/100 | 极致独立极客`
         };
       case 'ending_provincial_top':
         return {
           title: '🌸 【金秋红榜 · 清华北京巨轮启航】',
           badge: '清华/北京大学特录',
-          description: `高考投档大盘揭盖！你获得了总分 ${total} 分（加上卓越体育分达到 ${total + pe}）的全省神级名次！你用当初在算法赛道里熬夜锤炼出的铁骨，在最严密的高考考场里拉开了无瑕的满弓！放榜不到一小时，招生部专车已围堵在校门口，许诺姚班/强基特派等顶级拔尖科学研究席位项目。代码少年的汗水与青春，在这一刻重新直抵金字塔最顶峰。`,
-          metrics: `文化课成绩: ${total}分 | 体育: ${pe}分 | 傲视群雄的心智王者`
+          description: `高考投档大盘揭盖！你获得了总分 ${total} 分的全省神级名次！你用当初在算法赛道里熬夜锤炼出的铁骨、以及高达 ${pe} 点的卓越身体素质，在最严密的高考考场里拉开了无瑕的满弓！放榜不到一小时，招生部专车已围堵在校门口，许诺姚班/强基特派等顶级拔尖科学研究席位项目。代码少年的汗水与青春，在这一刻重新直抵金字塔最顶峰。`,
+          metrics: `文化课成绩: ${total}分 | 身体素质: ${pe}/100 | 傲视群雄的心智王者`
         };
       case 'ending_985_ship':
         return {
           title: '🚢 【破浪扬帆 · 顶尖C9华五名家】',
           badge: '名校一等强基班直通',
           description: `文化课预测大获全胜，累加总得分 ${total}！你毫无悬念地迈向了江南顶尖985名学府（如浙大或复旦）的计算机特选班。得益于你出色的奥赛算法积淀，你在大学面试和强基机测中，以完美的自豪姿态写出了考官们前所未见的线段树重叠解决方案。你成功延续了当年在幽冷微机房里那段高深代码少年的生命，书写下一个更耀眼的篇章。`,
-          metrics: `高考分数: ${total}分 | 体育: ${pe}分 | 核心代码工程架构骨干`
+          metrics: `高考分数: ${total}分 | 身体素质: ${pe}/100 | 核心代码工程架构骨干`
         };
       case 'ending_211_elite':
         return {
           title: '🎯 【百发百中 · IT行业黄埔211录取】',
           badge: '北京邮电/西安电子/王牌IT',
           description: `分数最终敲定在 ${total} 分。你稳健地勾选了在IT领域被誉为英才摇篮的行业顶尖211大学。在这里，你曾高扬的代码斗志和稳妥的文化底子交汇成了最牢固的基石。在开学第一周的新生选拔中，你高大且极富侵略性的C++调试底蕴让老牌ACM教练当场拉入ICPC校队，在一场久违的键盘敲击声里，你热泪盈眶，重新看到了年少发光的自我。`,
-          metrics: `文化高考分: ${total}分 | 体育: ${pe}分 | 地区ICPC校赛金牌先锋`
+          metrics: `文化高考分: ${total}分 | 身体素质: ${pe}/100 | 地区ICPC校赛金牌先锋`
         };
       case 'ending_tier1_standard':
         return {
           title: '🧱 【红砖白瓦 · 踏在坚实的一本泥土】',
           badge: '省属首批排头一本院校',
-          description: `高考稳固落地，收获 ${total} 分。在这个喧闹的志愿夏天，你收下了一本主流高校软件工程系的红纸通知。虽然没有闪亮到宇宙之巅的耀眼，但退役百日后那段在书堆掩映间与单词长跑搏杀的日子，早已彻底锤炼了你的心性。你开始发现生活不止有高精尖的算法，在一张朴实课桌上，细数江海、与生活握手言和，亦是无上的成就。`,
-          metrics: `高考分数: ${total}分 | 体育: ${pe}分 | 务实求真的研发工程师`
+          description: `高考稳固落地，收获 ${total} 分。在这个喧闹的志愿夏天，你收下了一本主流高校软件工程系的红纸通知。虽然没有闪亮到宇宙之巅的耀眼，但退役百日后那段在书堆掩映间与单词长跑搏杀的日子，早已彻底锤炼了你的心性。你开始发现生活不止有高精尖的算法，在一张朴实课桌上，细数江海、与生活稳手言和，亦是无上的成就。`,
+          metrics: `高考分数: ${total}分 | 身体素质: ${pe}/100 | 务实求真的研发工程师`
         };
       case 'ending_tier2_survive':
         return {
           title: '🌊 【浩荡江湖 · Ordinary but Unbendable】',
           badge: '省属正规公办二本',
           description: `你最终取得了 ${total} 分，报考了省内公立二本大学。虽然课堂讲得很老套，但也赋予了你极大的空闲时间来探索自我。依靠当初精简的奥赛底色，你从寝室自学了前沿人工智能和大语言模型，在各大开发者社区斩获了多块知名技术黑客奖牌。不困守于一时的落败，用长坡厚雪的眼光看待人生，你终将归于广阔的真我江海。`,
-          metrics: `高考成绩: ${total}分 | 体育: ${pe} | 底气厚重的民间自由奇才`
+          metrics: `高考成绩: ${total}分 | 身体素质: ${pe}/100 | 底气厚重的民间自由奇才`
         };
       default: // ending_gap_year
         return {
           title: '📝 【长风破浪 · 回炉重战高四】',
           badge: '高四全科代码体系重构',
           description: `分数单上惊人的 ${total} 分让你和家人在深夜里陷入了长久的无言，这确实离你的数理智慧距离太远。然而你深吸一气，明白这场短跑虽然在沙砾中滑倒，但代码少年的信念不该低头。你做出了复读的艰难决定。退役重学文化课的这一百天，早已为你铺设了最深沉的防线，高四那场没有代码编译、唯笔作剑的洗礼，你必将真正大获Accepted。`,
-          metrics: `高考分数: ${total}分 | 体育: ${pe} | 重整铠甲的孤心斗士`
+          metrics: `高考分数: ${total}分 | 身体素质: ${pe}/100 | 重整铠甲的孤心斗士`
         };
     }
   };
@@ -1324,8 +1335,21 @@ export default function App() {
           </p>
         </div>
 
-        {/* Global Sound Toggle Controls */}
-        <div className="flex items-center gap-3">
+        {/* Global Sound and Logs Toggle Controls */}
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => {
+              synth.click();
+              setChangelogOpen(true);
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-xl text-xs font-semibold bg-white transition-all cursor-pointer ${
+              isCurrentlyAnxious ? 'border-stone-850 bg-stone-900 text-stone-300 hover:bg-stone-800' : 'border-stone-200 text-stone-600 hover:border-stone-350 hover:bg-stone-50'
+            }`}
+          >
+            <BookMarked className="w-3.5 h-3.5 text-amber-600" />
+            <span>更新日志</span>
+          </button>
+
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-xl text-xs font-semibold bg-white transition-all cursor-pointer ${
@@ -1936,21 +1960,39 @@ export default function App() {
                             </span>
                           </button>
 
-                          {/* Physical Education Add-on Option */}
+                          {/* Physical Fitness Option 1: Jogging */}
                           <button
                             onClick={() => handleSelectStudyStrategy('PE_TRAIN')}
                             className={`p-4 rounded-xl text-left hover:shadow-xs transition-all flex flex-col gap-1.5 cursor-pointer border-2 ${
                               weeklyFocusSelections.includes('PE_TRAIN')
-                              ? 'bg-teal-50/10 border-teal-500 ring-1 ring-teal-500/20'
+                              ? 'bg-emerald-50/10 border-emerald-500 ring-1 ring-emerald-500/20'
                               : 'bg-white border-stone-200 hover:border-stone-400'
                             }`}
                           >
                             <span className="flex items-center gap-1.5 font-sans font-bold text-xs text-stone-800 uppercase tracking-wider">
-                              <Dribbble className="w-4 h-4 text-emerald-600" />
-                              操场挥汗体育特训 (体育加练)
+                              <ActivityIcon className="w-4 h-4 text-emerald-600 animate-pulse" />
+                              操场有氧夜跑与心肺拉伸 (解压调频)
                             </span>
                             <span className="text-[10px] text-stone-400 font-mono leading-normal">
-                              精力-20 | 压力大退-15 | 睡眠+15 | 韧性+5 | 体育分数+6
+                              精力-20 | 压力大退-16 | 睡眠+16 | 韧性+6 | 身体素质+12
+                            </span>
+                          </button>
+
+                          {/* Physical Fitness Option 2: Strength training */}
+                          <button
+                            onClick={() => handleSelectStudyStrategy('GYM_TRAIN')}
+                            className={`p-4 rounded-xl text-left hover:shadow-xs transition-all flex flex-col gap-1.5 cursor-pointer border-2 ${
+                              weeklyFocusSelections.includes('GYM_TRAIN')
+                              ? 'bg-emerald-50/10 border-emerald-500 ring-1 ring-emerald-500/20'
+                              : 'bg-white border-stone-200 hover:border-stone-400'
+                            }`}
+                          >
+                            <span className="flex items-center gap-1.5 font-sans font-bold text-xs text-stone-800 uppercase tracking-wider">
+                              <Flame className="w-4 h-4 text-emerald-600 animate-bounce" />
+                              核心肌肉力量与阻力器械 (增强体能)
+                            </span>
+                            <span className="text-[10px] text-stone-400 font-mono leading-normal">
+                              精力-24 | 压力-10 | 睡眠+10 | 韧性+8 | 身体素质+16
                             </span>
                           </button>
 
@@ -1996,11 +2038,12 @@ export default function App() {
                           <span className="text-[11px] font-sans text-stone-500 leading-normal max-w-md">
                             {weeklyFocusSelections.length > 0
                               ? `当前已计划: [ ${weeklyFocusSelections.map(s => {
-                                  if (s === 'CHN') return '恶补语文';
-                                  if (s === 'MATH') return '攻坚数学';
-                                  if (s === 'ENG') return '高频英语';
-                                  if (s === 'SCI') return '突击理综';
-                                  if (s === 'PE_TRAIN') return '体育特训';
+                                  if (s === 'CHN') return '补语文';
+                                  if (s === 'MATH') return '写数学';
+                                  if (s === 'ENG') return '背英语';
+                                  if (s === 'SCI') return '卷理综';
+                                  if (s === 'PE_TRAIN') return '有氧夜跑';
+                                  if (s === 'GYM_TRAIN') return '重核健身';
                                   if (s === 'CODE') return '机房代码';
                                   return '深度安歇';
                                 }).join(', ')} ]。多项复习并行时将激发精力加倍的大超载debuff！`
@@ -2377,6 +2420,122 @@ export default function App() {
 
         </AnimatePresence>
       </main>
+
+      {/* Tasteful global footer with Copyright and thematic disclaimer */}
+      <footer className={`max-w-6xl mx-auto mt-12 pt-8 border-t transition-all duration-1000 ${
+        isCurrentlyAnxious 
+          ? 'border-stone-850 text-stone-500' 
+          : 'border-stone-200 text-stone-400'
+      }`}>
+        <div className="bg-stone-50/50 rounded-2xl border border-stone-200/60 p-5 text-left font-sans text-[11px] leading-relaxed text-stone-500 shadow-xxs">
+          <p className="font-bold text-stone-700 text-xs mb-2">
+            版权声明：版权所有 © [2026] [LEOOOOOOOOO]
+          </p>
+          <p className="whitespace-pre-line text-[10px] opacity-90">
+            本作品仅开放非商业性二次改编、修改与衍生创作权限，禁止一切商业使用，所有改编行为严禁制作、修改出非法、违规、低俗、不友善及歪曲篡改原作的不良内容；任何二次改编必须通过邮箱的方式知会原作者，并在原作GitHub仓库新建改编报备Issue完成报备，报备后不需原作者明确同意即可进行创作；所有衍生作品需在醒目位置永久标注原作者及原作GitHub链接，不得隐匿、删减出处；所有二次改编行为及衍生作品产生的全部内容、风险与纠纷责任均由改编者自行承担，原作者不承担任何连带责任。
+          </p>
+        </div>
+      </footer>
+
+      {/* Elegant Version Changelog Modal */}
+      <AnimatePresence>
+        {changelogOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto relative text-stone-900"
+            >
+              <button 
+                onClick={() => {
+                  synth.click();
+                  setChangelogOpen(false);
+                }}
+                className="absolute top-4 right-4 w-7 h-7 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded-full flex items-center justify-center text-stone-500 hover:text-stone-800 transition-colors text-xs font-bold cursor-pointer"
+              >
+                ✕
+              </button>
+
+              <div className="flex items-center gap-2 mb-4 border-b border-stone-100 pb-3">
+                <BookMarked className="w-5 h-5 text-amber-600" />
+                <h3 className="font-sans font-black text-lg text-stone-900 tracking-tight">命运重连·高考复原更新日志</h3>
+              </div>
+
+              <div className="flex flex-col gap-6 font-sans">
+                {/* Version 1.3.0 */}
+                <div className="border-l-2 border-emerald-500 pl-4 py-0.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono font-extrabold text-sm text-emerald-700">v1.3.0 (当前版本)</span>
+                    <span className="text-[10px] text-stone-400 font-mono">2026-06</span>
+                  </div>
+                  <h4 className="font-sans font-bold text-xs mt-1 text-stone-800">身体素质重构与双向健体更新</h4>
+                  <ul className="list-disc list-inside text-[11px] text-stone-600 mt-2 space-y-1.5 leading-relaxed">
+                    <li><b>身体素质解耦</b>：将“体育”学科完全重命名为“身体素质”，满分上线扩容至 <b>100</b> 点，且不计入高考投档文化课总分。</li>
+                    <li><b>底层心肺代谢</b>：身体素质将作为精力与心理压力抗性的生命引擎，高分能显著减轻每周学习的精力损耗和自卑焦虑，反之孱弱将带来高额的周度代谢疲竭。</li>
+                    <li><b>全新精细体力行为</b>：在规划轮盘中加入双路径选择——“操场有氧夜跑 (解压调频)”以及“肌肉力量阻力 (增强体质底盘)”。</li>
+                    <li><b>法定版权协议更替</b>：在尾部完整引入了原作者 <b>LEOOOOOOOOO</b> 指定的限制性非商业改编许可权声明。</li>
+                  </ul>
+                </div>
+
+                {/* Version 1.2.0 */}
+                <div className="border-l-2 border-stone-300 pl-4 py-0.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono font-extrabold text-sm text-stone-700">v1.2.0</span>
+                    <span className="text-[10px] text-stone-400 font-mono">2026-05</span>
+                  </div>
+                  <h4 className="font-sans font-bold text-xs mt-1 text-stone-800">身心机能状态总览系统</h4>
+                  <ul className="list-disc list-inside text-[11px] text-stone-600 mt-2 space-y-1.5 leading-relaxed">
+                    <li><b>身心预测仪表盘</b>：主屏整合“高三身心状态引擎”以及“全省投档排名”估值计算组件。</li>
+                    <li><b>8-bit 网页声效果</b>：添加轻型逆向非侵入声学 chip，提供复古 8-bit 操作音效。</li>
+                    <li><b>自动时光归档</b>：新增手自动时光双写，支持回溯往日重连命运。</li>
+                  </ul>
+                </div>
+
+                {/* Version 1.1.0 */}
+                <div className="border-l-2 border-stone-300 pl-4 py-0.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono font-extrabold text-sm text-stone-700">v1.1.0</span>
+                    <span className="text-[10px] text-stone-400 font-mono">2026-04</span>
+                  </div>
+                  <h4 className="font-sans font-bold text-xs mt-1 text-stone-800">自定义极境命格体系</h4>
+                  <ul className="list-disc list-inside text-[11px] text-stone-600 mt-2 space-y-1.5 leading-relaxed">
+                    <li><b>多点命格枷锁</b>：玩家可定制正负双向基因，搭载“算法傲执”或负载“创伤余悲”。</li>
+                    <li><b>突发周多线剧情</b>：引入数十种概率闪回、悲伤自省以及高考成绩出炉会诊。</li>
+                  </ul>
+                </div>
+
+                {/* Version 1.0.0 */}
+                <div className="border-l-2 border-stone-300 pl-4 py-0.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono font-extrabold text-sm text-stone-700">v1.0.0</span>
+                    <span className="text-[10px] text-stone-400 font-mono">2026-03</span>
+                  </div>
+                  <h4 className="font-sans font-bold text-xs mt-1 text-stone-800">系统首发正式版</h4>
+                  <ul className="list-disc list-inside text-[11px] text-stone-600 mt-2 space-y-1.5 leading-relaxed">
+                    <li><b>基本复健机制</b>：退役信奥生核心语数英理综沙盘演变发布。</li>
+                  </ul>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => {
+                  synth.click();
+                  setChangelogOpen(false);
+                }}
+                className="w-full mt-6 bg-stone-900 hover:bg-stone-950 text-white font-sans text-xs font-bold uppercase rounded-xl py-3 border border-stone-800 transition-all cursor-pointer"
+              >
+                收起日志
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

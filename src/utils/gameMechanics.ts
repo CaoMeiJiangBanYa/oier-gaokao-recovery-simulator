@@ -60,25 +60,29 @@ export function calculateDeltas(stats: PlayerStats, deltas: any, debuffIds: stri
   // 1. Resilience calculations: reduces negative impacts
   const resFactor = clampValue(1 - (stats.resilience / 150), 0.3, 1.0);
 
+  // 1.5. Fitness coefficient (身体素质): high physical fitness preserves stamina and counters stress
+  const fitStaminaFactor = clampValue(1 - ((stats.scores?.pe || 50) / 300), 0.65, 1.0);
+  const fitStressFactor = clampValue(1 - ((stats.scores?.pe || 50) / 400), 0.75, 1.0);
+
   // Apply scores with standard range safeguards
   if (deltas.chinese) updated.scores.chinese = clampValue(updated.scores.chinese + deltas.chinese, 0, 150);
   if (deltas.math) updated.scores.math = clampValue(updated.scores.math + deltas.math, 0, 150);
   if (deltas.english) updated.scores.english = clampValue(updated.scores.english + deltas.english, 0, 150);
   if (deltas.science) updated.scores.science = clampValue(updated.scores.science + deltas.science, 0, 300);
-  if (deltas.pe) updated.scores.pe = clampValue(updated.scores.pe + deltas.pe, 0, 50);
+  if (deltas.pe) updated.scores.pe = clampValue(updated.scores.pe + deltas.pe, 0, 100);
 
   // Apply core stats
   if (deltas.stamina) {
     const change = deltas.stamina;
-    // If losing stamina, resilience reduces loss
-    const realChange = change < 0 ? Math.round(change * resFactor) : change;
+    // If losing stamina, resilience and fitness factor reduces loss
+    const realChange = change < 0 ? Math.round(change * resFactor * fitStaminaFactor) : change;
     updated.stamina = clampValue(updated.stamina + realChange, 0, 100);
   }
 
   if (deltas.stress) {
     const change = deltas.stress;
-    // If increasing stress, resilience reduces gain
-    const realChange = change > 0 ? Math.round(change * resFactor) : change;
+    // If increasing stress, resilience and fitness factor reduces gain
+    const realChange = change > 0 ? Math.round(change * resFactor * fitStressFactor) : change;
     updated.stress = clampValue(updated.stress + realChange, 0, 100);
   }
 
@@ -141,6 +145,17 @@ export function applyWeeklyMetabolism(stats: PlayerStats): { stats: PlayerStats,
     updated.stamina = clampValue(updated.stamina + 10, 0, 100);
     updated.stress = clampValue(updated.stress - 10, 0, 100);
     messages.push("✨ 强大的主观自豪感在心中激荡。你感到斗志昂扬，额外减少了10点心理压力。");
+  }
+
+  // Physical fitness natural metabolic influence (身体素质)
+  const peVal = stats.scores?.pe || 60;
+  if (peVal >= 75) {
+    updated.stamina = clampValue(updated.stamina + 12, 0, 100);
+    updated.stress = clampValue(updated.stress - 8, 0, 100);
+    messages.push(`🏋️‍♂️ 强健的身体素质（当前 ${peVal} 点）提供了过人活力，周代谢额外恢复 12 点精力、消解 8 点压力。`);
+  } else if (peVal < 40) {
+    updated.stamina = clampValue(updated.stamina - 10, 0, 100);
+    messages.push(`⚠️ 孱弱的身体素质（当前 ${peVal} 点）拖累了日常，备考周代谢导致你额外流失了 10 点精力。`);
   }
 
   // Natural rebellion relaxation over time

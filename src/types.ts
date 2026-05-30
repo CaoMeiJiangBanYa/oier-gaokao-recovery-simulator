@@ -3,7 +3,7 @@ export interface SubjectScores {
   math: number;    // 数学 (0-150)
   english: number; // 英语 (0-150)
   science: number; // 理综 (0-300)
-  pe: number;      // 体育 (0-50)
+  pe: number;      // 身体素质 (0-100)
 }
 
 export interface PlayerStats {

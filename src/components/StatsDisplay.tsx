@@ -55,9 +55,9 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({ stats }) => {
               <span className="text-xs text-stone-400 font-sans">/ 750分</span>
             </div>
             <div className="flex items-baseline gap-1 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200 shadow-xs">
-              <span className="text-[10px] text-stone-500 font-sans uppercase font-bold tracking-wider">体育:</span>
+              <span className="text-[10px] text-stone-500 font-sans uppercase font-bold tracking-wider">身体素质:</span>
               <span className="font-mono text-xl font-extrabold text-stone-900">{scores.pe}</span>
-              <span className="text-xs text-stone-400 font-sans">/ 50分</span>
+              <span className="text-xs text-stone-400 font-sans">/ 50 素质评分（不计入高考）</span>
             </div>
           </div>
         </div>
